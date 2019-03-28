@@ -4,18 +4,15 @@ const getDishes = () => {
   return db('dishes');
 };
 
-const addDish = async dish => {
-  return db('dishes').insert({ dish });
+const addDish = dish => {
+  return db('dishes').insert({ name: dish });
 };
 
-const getDish = async id => {
-  const [recipes] = await db('recipes').where({ dishes_id: id });
-  return {
-    dish: db('dish')
-      .where({ id })
-      .first(),
-    recipes
-  };
+const getDish = id => {
+  return db('dishes')
+    .leftJoin('recipes', 'dishes.id', 'recipes.dishes_id')
+    .select('dishes.id', 'dishes.name as dish', 'recipes.name as recipe')
+    .where({ 'dishes.id': id });
 };
 
 module.exports = {
