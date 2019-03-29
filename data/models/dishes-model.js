@@ -5,7 +5,7 @@ const getDishes = () => {
 };
 
 const addDish = dish => {
-  return db('dishes').insert({ name: dish });
+  return db('dishes').insert(dish);
 };
 
 const getDish = id => {

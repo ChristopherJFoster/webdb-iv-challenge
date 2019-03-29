@@ -21,7 +21,7 @@ router.post('/', async (req, res) => {
     });
   } else {
     try {
-      const addedDish = await Dishes.addDish(name);
+      const addedDish = await Dishes.addDish(req.body);
       res.status(201).json(addedDish);
     } catch (err) {
       res.status(500).json({
