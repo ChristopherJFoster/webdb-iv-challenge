@@ -18,9 +18,9 @@ const getRecipe = async id => {
     .select(
       'dishes.name as dish',
       'recipes.name as recipe',
-      'ings.name as ing',
-      'recipes_ings.quantity as quantity',
-      'recipes_ings.unit as unit'
+      'ings.name',
+      'recipes_ings.quantity',
+      'recipes_ings.unit'
     )
     .where({ 'recipes.id': id });
 };

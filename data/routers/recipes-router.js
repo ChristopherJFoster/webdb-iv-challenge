@@ -41,10 +41,10 @@ router.get('/:id', async (req, res) => {
     const recipeIngs = await Recipes.getRecipe(id);
     if (recipeIngs.length > 0) {
       const { dish, recipe } = recipeIngs[0];
-      const ings = recipeIngs.map(ing => {
-        return { quantity: ing.quantity, unit: ing.unit, ing: ing.ing };
+      const ingredients = recipeIngs.map(ing => {
+        return { quantity: ing.quantity, unit: ing.unit, name: ing.name };
       });
-      res.status(200).json({ dish, recipe, ings });
+      res.status(200).json({ dish, recipe, ingredients });
     } else {
       res.status(404).json({
         error: 'There is no recipe with the specified ID.'
