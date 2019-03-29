@@ -21,7 +21,7 @@ router.post('/', async (req, res) => {
     });
   } else {
     try {
-      const addedDish = await Dishes.addDish(req.body);
+      const addedDish = await Dishes.addDish({ name });
       res.status(201).json(addedDish);
     } catch (err) {
       res.status(500).json({
@@ -36,7 +36,9 @@ router.get('/:id', async (req, res) => {
   try {
     const dishRecipes = await Dishes.getDish(id);
     if (dishRecipes.length > 0) {
-      res.status(200).json(dishRecipes);
+      const { id, dish } = dishRecipes[0];
+      const recipes = dishRecipes.map(dishRecipe => dishRecipe.recipe);
+      res.status(200).json({ id, dish, recipes });
     } else {
       res.status(404).json({
         error: 'There is no dish with the specified ID.'
