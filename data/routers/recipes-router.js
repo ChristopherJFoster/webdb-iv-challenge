@@ -35,22 +35,26 @@ router.post('/', async (req, res) => {
   }
 });
 
-// router.get('/:id', async (req, res) => {
-//   const { id } = req.params;
-//   try {
-//     const dishRecipes = await Recipes.getDish(id);
-//     if (dishRecipes.length > 0) {
-//       res.status(200).json(dishRecipes);
-//     } else {
-//       res.status(404).json({
-//         error: 'There is no dish with the specified ID.'
-//       });
-//     }
-//   } catch (err) {
-//     res.status(500).json({
-//       error: `There was an error while retrieving the dish and recipes data. ${err}`
-//     });
-//   }
-// });
+router.get('/:id', async (req, res) => {
+  const { id } = req.params;
+  try {
+    const recipeIngs = await Recipes.getRecipe(id);
+    if (recipeIngs.length > 0) {
+      const { dish, recipe } = recipeIngs[0];
+      const ingredients = recipeIngs.map(ing => {
+        return { quantity: ing.quantity, unit: ing.unit, name: ing.name };
+      });
+      res.status(200).json({ dish, recipe, ingredients });
+    } else {
+      res.status(404).json({
+        error: 'There is no recipe with the specified ID.'
+      });
+    }
+  } catch (err) {
+    res.status(500).json({
+      error: `There was an error while retrieving the recipe, dish, and ingredients data. ${err}`
+    });
+  }
+});
 
 module.exports = router;
